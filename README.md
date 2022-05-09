@@ -83,6 +83,6 @@ windows使用netch作为$$客户端，$$服务器地址为 192.168.1.5(即运行
 
 2.防火墙阻断6999地址(服务端kcptun和udp2raw监听地址)，并放行ip白名单
 
-3.为方便$$链接，服务端上kcptun和udp2raw应该监听同意端口，客户端上kcptun和udpspeeder应该监听同一段口
+3.为方便$$链接，服务端上kcptun和udp2raw应该监听同一端口，客户端上kcptun和udpspeeder应该监听同一端口
 
 4.脚本执行目录下有日志文件(以log开头)，需手动删除
