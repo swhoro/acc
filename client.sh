@@ -47,13 +47,13 @@ case ${choice} in
   fi
 
   # kcptun
-  ./client_linux_amd64 -r "${ip}:${port}" -l ":37092" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 -autoexpire 900 2>>log_kcp &
+  ./client_linux_amd64 -r "${ip}:${port}" -l ":37092" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 -autoexpire 900 2>log_kcp &
 
   # udpspeeder
-  ./speederv2_amd64 -c -l 0.0.0.0:37092 -r 127.0.0.1:6999 -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >>log_speeder &
+  ./speederv2_amd64 -c -l 0.0.0.0:37092 -r 127.0.0.1:6999 -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >log_speeder &
 
   # udp2raw
-  ./udp2raw_amd64_hw_aes -c -l 127.0.0.1:6999 -r ${ip}:${port} -k "${udp2raw_pass}" --raw-mode faketcp -a >>log_udp2raw &
+  ./udp2raw_amd64_hw_aes -c -l 127.0.0.1:6999 -r ${ip}:${port} -k "${udp2raw_pass}" --raw-mode faketcp -a >log_udp2raw &
   ;;
 
 2)
