@@ -1,16 +1,28 @@
 #!/bin/bash
 # client side
 
-echo "1.启动服务"
+echo "1.启动/重启服务"
 echo "2.结束服务"
 
 read -p "请输入选项：" choice
 
 case ${choice} in
 1)
+  # kill running programs
+  # kill kcp
+  pkill client_lin
+  # kill udpspeeder
+  pkill speederv2_
+  # kill udp2raw
+  pkill udp2raw_am
+
+  # config listening port for kcptun and udpspeeder
+  listening_port=37092
+
+  # run new programs
   myfile=$(cat now)
 
-  #ip
+  #get ip and port
   ip=$(sed -ne 1p ${myfile})
   port=$(sed -ne 2p ${myfile})
 
@@ -28,6 +40,7 @@ case ${choice} in
 
   # basic information
   echo "配置文件：${myfile}"
+  echo "kcptun和udpspeeder监听端口：${listening_port}"
   echo "远程地址：${ip}"
   echo "远程端口：${port}"
   echo "udpspeeder密码：${udpspeeder_pass}"
@@ -47,10 +60,10 @@ case ${choice} in
   fi
 
   # kcptun
-  ./client_linux_amd64 -r "${ip}:${port}" -l ":37092" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 -autoexpire 900 2>log_kcp &
+  ./client_linux_amd64 -r "${ip}:${port}" -l ":${listening_port}" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 -autoexpire 900 2>log_kcp &
 
   # udpspeeder
-  ./speederv2_amd64 -c -l 0.0.0.0:37092 -r 127.0.0.1:6999 -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >log_speeder &
+  ./speederv2_amd64 -c -l 0.0.0.0:${listening_port} -r 127.0.0.1:6999 -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >log_speeder &
 
   # udp2raw
   ./udp2raw_amd64_hw_aes -c -l 127.0.0.1:6999 -r ${ip}:${port} -k "${udp2raw_pass}" --raw-mode faketcp -a >log_udp2raw &

@@ -1,13 +1,21 @@
 #!/bin/bash
 # server side
 
-echo "1.启动服务"
+echo "1.启动/重启服务"
 echo "2.结束服务"
 
 read -p "请输入选项：" choice
 
 case ${choice} in
 1)
+  # kill running programs
+  # kill kcp
+  pkill server_lin
+  # kill udpspeeder
+  pkill speederv2_
+  # kill udp2raw
+  pkill udp2raw_am
+
   #ss port
   ss_port=37092
 
@@ -45,7 +53,7 @@ case ${choice} in
   ./server_linux_amd64 -t "127.0.0.1:${ss_port}" -l ":6999" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 2>log_kcp &
 
   # udpspeeder
-  ./speederv2_amd64 -s -l 127.0.0.1:7000 -r 127.0.0.1:37092 -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >log_speeder &
+  ./speederv2_amd64 -s -l 127.0.0.1:7000 -r 127.0.0.1:${ss_port} -k "${udpspeeder_pass}" -f 2:2 --timeout 1 >log_speeder &
 
   # udp2raw
   ./udp2raw_amd64_hw_aes -s -l 0.0.0.0:6999 -r 127.0.0.1:7000 -k "${udp2raw_pass}" --raw-mode faketcp -a >log_udp2raw &
