@@ -1,0 +1,7 @@
+listening_port: 37092
+servers:
+    - name: my-acc
+      ip: 1.2.3.4
+      port: 6999
+      udpspeeder_pass: 12345
+      udp2raw_pass: 12345
