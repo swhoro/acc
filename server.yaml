@@ -1,3 +1,4 @@
 ss_port: 37092
+listening_port: 6999
 udpspeeder_pass: 12345
 udp2raw_pass: 12345

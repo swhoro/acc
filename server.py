@@ -24,6 +24,7 @@ if choice == 1:
         c = yaml.load(f, Loader=yaml.FullLoader)
 
     ss_port = c["ss_port"]
+    listening_port = c["listening_port"]
     udpspeeder_pass = c["udpspeeder_pass"]
     udp2raw_pass = c["udp2raw_pass"]
 
@@ -36,16 +37,20 @@ if choice == 1:
     if not os.path.exists("log_udp2raw"):
         os.mknod("log_udp2raw")
 
-    cmdKcp = f"./server_linux_amd64 -t \"127.0.0.1:{ss_port}\" -l \":6999\" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 2>log_kcp"
-    print(cmdKcp)
+    print(f"监听端口：{listening_port}")
+    print(f"udpspeeder密码：{udpspeeder_pass}")
+    print(f"udp2raw密码：{udp2raw_pass}")
+
+    cmdKcp = f"./server_linux_amd64 -t \"127.0.0.1:{ss_port}\" -l \":{listening_port}\" -mode fast3 -nocomp -sockbuf 1677217 -dscp 46 2>log_kcp"
+    # print(cmdKcp)
     subprocess.Popen(cmdKcp, shell=True)
 
     cmdSpeeder = f"./speederv2_amd64 -s -l 127.0.0.1:7000 -r 127.0.0.1:{ss_port} -k \"{udpspeeder_pass}\" -f 2:2 --timeout 1 >log_speeder"
-    print(cmdSpeeder)
+    # print(cmdSpeeder)
     subprocess.Popen(cmdSpeeder, shell=True)
 
-    cmdUdp2raw = f"./udp2raw_amd64_hw_aes -s -l 0.0.0.0:6999 -r 127.0.0.1:7000 -k \"{udp2raw_pass}\" --raw-mode faketcp -a >log_udp2raw"
-    print(cmdUdp2raw)
+    cmdUdp2raw = f"./udp2raw_amd64_hw_aes -s -l 0.0.0.0:{listening_port} -r 127.0.0.1:7000 -k \"{udp2raw_pass}\" --raw-mode faketcp -a >log_udp2raw"
+    # print(cmdUdp2raw)
     subprocess.Popen(cmdUdp2raw, shell=True)
 
 if choice == 2:
