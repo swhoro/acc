@@ -10,7 +10,7 @@ https://github.com/wangyu-/UDPspeeder/wiki/UDPspeeder---kcptun-finalspeed---%24%
 
 ![网络拓扑 ](https://user-images.githubusercontent.com/34229589/167377594-3f856c55-af7a-4809-819e-239207d46554.png)
 
-##相关链接:
+## 相关链接:
 
 [kcptun](https://github.com/xtaci/kcptun)
 
@@ -80,8 +80,8 @@ servers:
 
 ## 使用
 
-分别上传客户端与服务端可执行文件
+分别上传服务端与客户端可执行文件
 
 分别上传server.py和client.py至服务端和客户端，完成配置
 
-服务端运行`python server.py`，客户端运行`python client.py`
+服务端运行`python3 server.py`，客户端运行`python3 client.py`
