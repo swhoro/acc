@@ -8,6 +8,7 @@ print("2 结束服务")
 print("请输入选项")
 choice = input()
 choice = int(choice)
+print()
 
 
 def killAll():
@@ -39,6 +40,7 @@ if choice == 1:
     udpspeeder_pass = servers[i]["udpspeeder_pass"]
     udp2raw_pass = servers[i]["udp2raw_pass"]
 
+    print()
     print(f"服务器：{name}")
     print(f"kcptun和udpspeeder监听端口：{listening_port}")
     print(f"远程地址：{ip}")
